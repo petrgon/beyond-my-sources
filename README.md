@@ -12,4 +12,3 @@ Works in Chrome and Firefox.
 4. Update the content you own in the `myContent` varriable. Add `//` before content you DON'T own.
 5. Save the script in violentmonkey.
 6. Reload DnDBeyond page.
-7. Profit.
