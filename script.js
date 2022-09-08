@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      Petr Gondek
 // @description 9/8/2022, 10:01:53 PM
 // ==/UserScript==
@@ -90,12 +90,13 @@ const myContent = [
   "filter-source-xanathars-guide-to-everything"
 ];
 
+const FILTER_SOURCE_ID = "filter-source";
+
 function Main () {
-  if(document.getElementById("filter-source") == null)
+  if(document.getElementById(FILTER_SOURCE_ID) == null)
     return;
-  if(!CreateButton())
-    return;
-  SelectAll();
+  
+  CreateButton()
 }
 
 function ButtonOnClick() {
@@ -145,12 +146,9 @@ function CreateButton () {
 };
 
 function SelectAll () {
-  //console.log("SelectAll");
-  Array.from(document.getElementById("filter-source")).forEach(e => { 
+  Array.from(document.getElementById(FILTER_SOURCE_ID)).forEach(e => { 
     myContent.forEach(c => {
-      // console.log("Looking for '" + c + "' in '" + e.id + "'");
        if (e.id.includes(c)) {
-         //console.log("Found '" + c + "'!");
          e.selected = true;
        }
     });
