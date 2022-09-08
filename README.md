@@ -1,5 +1,7 @@
 # Beyond My Content
-Adds button to DnDBeyond to filter your content. Works with Violentmonkey extension.
+Adds button to DnDBeyond to filter your content. Works with Violentmonkey extension and similar.
+
+This script was tested in Chrome and Firefox.
 
 ## How to install
 1. Install [violentmonkey](https://violentmonkey.github.io/) browser extension.
