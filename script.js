@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     1.2
+// @version     1.3
 // @author      Petr Gondek
 // @description 9/8/2022, 10:01:53 PM
 // ==/UserScript==
@@ -91,30 +91,31 @@ const myContent = [
 ];
 
 const FILTER_SOURCE_ID = "filter-source";
+const LISTING_FILTERS_CLASS = "listing-filters";
+const RESET_BUTTON_CONTAINER_CLASS = "reset-button-container";
 
-function Main () {
-  if(document.getElementById(FILTER_SOURCE_ID) == null)
-    return;
-  
-  CreateButton()
+function AllElementsAvailable() {
+  return document.getElementById(FILTER_SOURCE_ID) != null && 
+    document.getElementsByClassName(LISTING_FILTERS_CLASS)[0] != null && 
+    document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0] != null;
 }
 
-function ButtonOnClick() {
-  SelectAll();
-  SubmitForm();
-}
-
-function SubmitForm(){
-  let form =  document.getElementsByClassName("listing-filters")[0];
-  if (form == null) {
-    console.error("Form not found");
+function Main() {
+  if (!AllElementsAvailable()){
+    console.error("beyond-my-content: Can't find an element.");
     return;
   }
   
-  form.submit();
+  CreateButton();
 }
 
-function GetStyle(element) {
+function ButtonOnClick() {
+  SelectAll();  
+  document.getElementsByClassName(LISTING_FILTERS_CLASS)[0].submit();
+}
+
+
+function GetCssText(element) {
   let styles = window.getComputedStyle(element);
 
   let cssText = styles.cssText;
@@ -129,16 +130,16 @@ function GetStyle(element) {
 }
 
 function CreateButton () {
-  let container = document.getElementsByClassName("reset-button-container")[0];
+  let container = document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0];
   if (container == null)
     return false;
   let btn = document.createElement("button");
   btn.innerHTML = "Filter my content";
   btn.id = btn.innerHTML;
   btn.onclick = ButtonOnClick;
-  btn.style.cssText = GetStyle(container.firstElementChild.firstElementChild);
+  btn.style.cssText = GetCssText(container.firstElementChild.firstElementChild);
   let div = document.createElement("div");
-  div.style.cssText = GetStyle(container.firstElementChild);
+  div.style.cssText = GetCssText(container.firstElementChild);
   
   div.appendChild(btn);
   container.appendChild(div);
@@ -147,10 +148,8 @@ function CreateButton () {
 
 function SelectAll () {
   Array.from(document.getElementById(FILTER_SOURCE_ID)).forEach(e => { 
-    myContent.forEach(c => {
-       if (e.id.includes(c)) {
-         e.selected = true;
-       }
-    });
+    if (myContent.includes(e.id)) {
+      e.selected = true;
+    }
   });
 }
