@@ -12,3 +12,6 @@ Adds a button to DnDBeyond to filter content you own. Works with Violentmonkey e
 4. Update the content you own in the `myContent` variable. Add `//` before the content you DON'T own.
 5. Save the script in violentmonkey.
 6. Reload DnDBeyond page.
+
+
+[Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-content)
