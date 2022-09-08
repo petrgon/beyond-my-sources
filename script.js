@@ -6,6 +6,7 @@
 // @version     1.4
 // @author      Petr Gondek
 // @description Adds a button to DnDBeyond to filter the content you own.
+// @license MIT
 // ==/UserScript==
 
 window.addEventListener('load', function() {
