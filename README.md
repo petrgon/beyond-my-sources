@@ -23,4 +23,5 @@ Before you use this script you have to update the list of the content you own!
 
 ## Links
 [Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-content)
+
 [Github](https://github.com/petrgon/beyond-my-content/)
