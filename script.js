@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      Petr Gondek
 // @description 9/8/2022, 10:01:53 PM
 // ==/UserScript==
@@ -114,24 +114,17 @@ function SubmitForm(){
 }
 
 function GetStyle(element) {
-  const computedStyles = window.getComputedStyle(element);
-  let styles = {};
-  switch (computedStyles.constructor.name) {
-      // Fix for firefox
-      case 'CSS2Properties':
-        Object.values(computedStyles).forEach((prop) => {
-          styles[prop] = computedStyles[prop];
-        });
-        break;
-      case 'CSSStyleDeclaration':
-        styles = computedStyles;
-        break;
-      default:
-        console.error('Unknown style object prototype');
-        break;
-    }
+  let styles = window.getComputedStyle(element);
+
+  let cssText = styles.cssText;
+
+  if (!cssText) {
+    cssText = Array.from(styles).reduce((str, property) => {
+      return `${str}${property}:${styles.getPropertyValue(property)};`;
+    }, '');
+  }
   
-  return styles;
+  return cssText;
 }
 
 function CreateButton () {
@@ -140,12 +133,11 @@ function CreateButton () {
     return false;
   let btn = document.createElement("button");
   btn.innerHTML = "Filter my content";
-  btn.id = btn.innerHTM;
+  btn.id = btn.innerHTML;
   btn.onclick = ButtonOnClick;
-  Object.assign(btn.style, GetStyle(container.firstElementChild.firstElementChild));
-  
+  btn.style.cssText = GetStyle(container.firstElementChild.firstElementChild);
   let div = document.createElement("div");
-  Object.assign(div.style, GetStyle(container.firstElementChild));
+  div.style.cssText = GetStyle(container.firstElementChild);
   
   div.appendChild(btn);
   container.appendChild(div);
