@@ -1,7 +1,7 @@
 # Beyond My Content
 Adds a button to DnDBeyond to filter content you own. Works with Violentmonkey extension and similar. Tested in Chrome and Firefox.
 
-![Button image](button.png)
+![Button image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/button.png)
 
 Before you use this script you have to update the list of the content you own!
 
