@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        Select my content
+// @name        Beyond My Content
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     1.3
+// @version     1.4
 // @author      Petr Gondek
-// @description 9/8/2022, 10:01:53 PM
+// @description Adds a button to DnDBeyond to filter the content you own.
 // ==/UserScript==
 
 window.addEventListener('load', function() {
