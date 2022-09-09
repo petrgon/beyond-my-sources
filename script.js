@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     1.4
+// @version     2.0
 // @author      Petr Gondek
 // @description Adds a button to DnDBeyond to filter the content you own.
 // @license MIT
