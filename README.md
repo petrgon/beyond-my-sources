@@ -2,7 +2,7 @@
 Adds a button to DnDBeyond to filter content you own. Works with Violentmonkey extension and similar. Tested in Chrome and Firefox.
 
 ![Button Game Rules image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/button.png)
-![Button Encounter Builder image](encounter-builder.png)
+![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/encounter-builder.png)
 
 Before you use this script you have to update the list of the content you own!
 
