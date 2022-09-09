@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Beyond My Content
+// @name        DEVELOP Beyond My Content
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
@@ -95,19 +95,59 @@ const FILTER_SOURCE_ID = "filter-source";
 const LISTING_FILTERS_CLASS = "listing-filters";
 const RESET_BUTTON_CONTAINER_CLASS = "reset-button-container";
 
-function AllElementsAvailable() {
-  return document.getElementById(FILTER_SOURCE_ID) != null && 
-    document.getElementsByClassName(LISTING_FILTERS_CLASS)[0] != null && 
-    document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0] != null;
-}
+const QA_MONSTER_FILTERS_SOURCE = "qa-monster-filters_source";
+const INPUT_SELECT_DROPDOWN = "input-select__dropdown";
+const INPUT_CHECKBOX_TEXT = "input-checkbox__text";
+const QA_MONSTER_FILTERS_SHOW_ADVANCE = "qa-monster-filters_show-advanced";
 
 function Main() {
-  if (!AllElementsAvailable()){
-    console.error("beyond-my-content: Can't find an element.");
+  if (IsGameRules()) {
+    CreateButton();
     return;
   }
+
+  setTimeout(() => {
+    if (IsEncounterBuilder()) {
+      CreateButtonEB();
+      return;
+    }
+    
+    console.error("beyond-my-content: Can't find an element.");
+  }, 2000);
   
-  CreateButton();
+}
+
+function IsGameRules() {
+  return (document.getElementById(FILTER_SOURCE_ID) != null && 
+    document.getElementsByClassName(LISTING_FILTERS_CLASS)[0] != null && 
+    document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0] != null);
+}
+
+function IsEncounterBuilder() {
+  return (document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0] != null && 
+    document.getElementsByClassName(INPUT_SELECT_DROPDOWN)[0] != null && 
+    document.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0] != null &&
+    document.getElementsByClassName(QA_MONSTER_FILTERS_SHOW_ADVANCE)[0] != null);
+}
+
+function OnClickEncounterBuilder(){
+  let ele = document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0].getElementsByClassName(INPUT_SELECT_DROPDOWN)[0];
+  let clickables = Array.from(ele.childNodes).map(e=> e.firstElementChild);
+  clickables.forEach(e => {
+    let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data.toLowerCase().replace(/\s/g, '-');
+    if (myContent.some(content => content.includes(bookName)))
+      e.click();
+  });
+}
+
+function CreateButtonEB() {
+  let originalButton = document.getElementsByClassName(QA_MONSTER_FILTERS_SHOW_ADVANCE)[0];
+  let btn = document.createElement("button");
+  btn.innerHTML = "Filter my content";
+  btn.id = btn.innerHTML;
+  btn.onclick = OnClickEncounterBuilder;
+  btn.style.cssText = GetCssText(originalButton);
+  originalButton.parentElement.appendChild(btn);
 }
 
 function ButtonOnClick() {
@@ -132,8 +172,6 @@ function GetCssText(element) {
 
 function CreateButton () {
   let container = document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0];
-  if (container == null)
-    return false;
   let btn = document.createElement("button");
   btn.innerHTML = "Filter my content";
   btn.id = btn.innerHTML;
