@@ -134,7 +134,7 @@ function OnClickEncounterBuilder(){
   let ele = document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0].getElementsByClassName(INPUT_SELECT_DROPDOWN)[0];
   let clickables = Array.from(ele.childNodes).map(e=> e.firstElementChild);
   clickables.forEach(e => {
-    let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data.toLowerCase().replace(/\s/g, '-');
+    let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data.toLowerCase().replace(/\s/g, '-').replace(/[^a-zA-Z-]/g, '');
     if (myContent.some(content => content.includes(bookName)))
       e.click();
   });
