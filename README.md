@@ -1,14 +1,15 @@
 # Beyond My Content
 Adds a button to DnDBeyond to filter sources you own. Works with Violentmonkey extension and similar. Tested in Chrome and Firefox.
 
+Before you use this script you have to update the list of the content you own!
+
+Before you update to a never version make a backup of `myContent` variable!
+
 ![Button Game Rules image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/button.png)
 ![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/encounter-builder.png)
 
 ![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/showcase.gif)
 
-Before you use this script you have to update the list of the content you own!
-
-Before you update to a never version make a backup of `myContent` variable!
 
 ## How to install from Greasy Fork
 1. Install [violentmonkey](https://violentmonkey.github.io/) browser extension or any alternative.
