@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        DEVELOP Beyond My Content
+// @name        Beyond My Content
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
