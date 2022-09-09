@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     2.1
+// @version     2.2
 // @author      Petr Gondek
 // @description Adds a button to DnDBeyond to filter the content you own.
 // @license MIT
@@ -100,6 +100,8 @@ const INPUT_SELECT_DROPDOWN = "input-select__dropdown";
 const INPUT_CHECKBOX_TEXT = "input-checkbox__text";
 const QA_MONSTER_FILTERS_SHOW_ADVANCE = "qa-monster-filters_show-advanced";
 
+const MY_SOURCES = "Filter my sources";
+
 function Main() {
   if (IsGameRules()) {
     CreateButton();
@@ -143,7 +145,7 @@ function OnClickEncounterBuilder(){
 function CreateButtonEB() {
   let originalButton = document.getElementsByClassName(QA_MONSTER_FILTERS_SHOW_ADVANCE)[0];
   let btn = document.createElement("button");
-  btn.innerHTML = "Filter my content";
+  btn.innerHTML = MY_SOURCES;
   btn.id = btn.innerHTML;
   btn.onclick = OnClickEncounterBuilder;
   btn.style.cssText = GetCssText(originalButton);
@@ -173,7 +175,7 @@ function GetCssText(element) {
 function CreateButton () {
   let container = document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0];
   let btn = document.createElement("button");
-  btn.innerHTML = "Filter my content";
+  btn.innerHTML = MY_SOURCES;
   btn.id = btn.innerHTML;
   btn.onclick = ButtonOnClick;
   btn.style.cssText = GetCssText(container.firstElementChild.firstElementChild);
