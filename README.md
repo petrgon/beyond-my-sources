@@ -1,5 +1,5 @@
 # Beyond My Content
-Adds a button to DnDBeyond to filter content you own. Works with Violentmonkey extension and similar. Tested in Chrome and Firefox.
+Adds a button to DnDBeyond to filter sources you own. Works with Violentmonkey extension and similar. Tested in Chrome and Firefox.
 
 ![Button Game Rules image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/button.png)
 ![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/encounter-builder.png)
