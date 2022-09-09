@@ -6,7 +6,7 @@ Adds a button to DnDBeyond to filter content you own. Works with Violentmonkey e
 Before you use this script you have to update the list of the content you own!
 
 ## How to install from Greasy Fork
-1. Install [violentmonkey](https://violentmonkey.github.io/) browser extension.
+1. Install [violentmonkey](https://violentmonkey.github.io/) browser extension or any alternative.
 2. Install script from [Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-content).
 5. Find the script in the extension and click Edit.
 6. Update the content you own in the `myContent` variable. Add `//` before the content you DON'T own.
@@ -14,7 +14,7 @@ Before you use this script you have to update the list of the content you own!
 8. Reload DnDBeyond page.
 
 ## How to install manually
-1. Install [violentmonkey](https://violentmonkey.github.io/) browser extension.
+1. Install [violentmonkey](https://violentmonkey.github.io/) browser extension or any alternative.
 2. Create a new script in extension.
 3. Copy the content of the [script.js](script.js) from this repo.
 4. Update the content you own in the `myContent` variable. Add `//` before the content you DON'T own.
