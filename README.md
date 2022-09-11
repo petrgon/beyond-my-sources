@@ -5,10 +5,10 @@ Before you use this script you have to update the list of the content you own! S
 
 Before you update to a never version make a backup of `myContent` variable!
 
-![Button Game Rules image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/button.png)
-![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/encounter-builder.png)
+![Button Game Rules image](https://raw.githubusercontent.com/petrgon/beyond-my-sources/main/button.png)
+![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-sources/main/encounter-builder.png)
 
-![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-content/main/showcase.gif)
+![Button Encounter Builder image](https://raw.githubusercontent.com/petrgon/beyond-my-sources/main/showcase.gif)
 
 
 ## How to install from Greasy Fork
@@ -30,4 +30,4 @@ Before you update to a never version make a backup of `myContent` variable!
 ## Links
 [Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-content)
 
-[Github](https://github.com/petrgon/beyond-my-content/)
+[Github](https://github.com/petrgon/beyond-my-sources/)
