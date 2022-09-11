@@ -5,7 +5,7 @@
 // @grant       none
 // @version     2.3
 // @author      Petr Gondek
-// @description Adds a button to DnDBeyond to filter the content you own.
+// @description Adds a button to DnDBeyond to filter sources you own.
 // @license MIT
 // ==/UserScript==
 
@@ -13,10 +13,10 @@ window.addEventListener('load', function() {
     Main();
 }, false);
 
-// Execute this to get new content array
+// Execute this to get new sources array
 //Array.from(document.getElementById("filter-source")).map(e => e.id);
 
-// comment out content you don't own
+// comment out sources you don't own
 const mySources = [
   //"filter-source-acquisitions-incorporated",
   //"filter-source-against-the-giants",
@@ -114,7 +114,7 @@ function Main() {
       return;
     }
     
-    console.error("beyond-my-content: Can't find an element.");
+    console.error("beyond-my-sources: Can't find an element.");
   }, 2000);
   
 }
@@ -137,7 +137,7 @@ function OnClickEncounterBuilder(){
   let clickables = Array.from(ele.childNodes).map(e=> e.firstElementChild);
   clickables.forEach(e => {
     let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data.toLowerCase().replace(/\s/g, '-').replace(/[^a-zA-Z-]/g, '');
-    if (mySources.some(content => content.includes(bookName)))
+    if (mySources.some(source => source.includes(bookName)))
       e.click();
   });
 }
