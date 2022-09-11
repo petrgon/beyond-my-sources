@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Beyond My Content
+// @name        Beyond My Sources
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
 //Array.from(document.getElementById("filter-source")).map(e => e.id);
 
 // comment out content you don't own
-const myContent = [
+const mySources = [
   //"filter-source-acquisitions-incorporated",
   //"filter-source-against-the-giants",
   //"filter-source-baldurs-gate-descent-into-avernus",
@@ -137,7 +137,7 @@ function OnClickEncounterBuilder(){
   let clickables = Array.from(ele.childNodes).map(e=> e.firstElementChild);
   clickables.forEach(e => {
     let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data.toLowerCase().replace(/\s/g, '-').replace(/[^a-zA-Z-]/g, '');
-    if (myContent.some(content => content.includes(bookName)))
+    if (mySources.some(content => content.includes(bookName)))
       e.click();
   });
 }
@@ -189,7 +189,7 @@ function CreateButton () {
 
 function SelectAll () {
   Array.from(document.getElementById(FILTER_SOURCE_ID)).forEach(e => { 
-    if (myContent.includes(e.id)) {
+    if (mySources.includes(e.id)) {
       e.selected = true;
     }
   });
