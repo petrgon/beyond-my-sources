@@ -28,6 +28,6 @@ Before you update to a never version make a backup of `mySources` variable!
 6. Reload DnDBeyond page.
 
 ## Links
-[Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-content)
+[Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-sources)
 
 [Github](https://github.com/petrgon/beyond-my-sources/)
