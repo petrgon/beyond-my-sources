@@ -1,4 +1,4 @@
-# Beyond My Content
+# Beyond My Sources
 Adds a button to DnDBeyond to filter sources you own. Works with Violentmonkey extension and similar. Tested in Chrome and Firefox.
 
 Before you use this script you have to update the list of the content you own! See the [How to install](#how-to-install-from-greasy-fork) chapter.
