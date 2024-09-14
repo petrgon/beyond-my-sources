@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.dndbeyond.com/*
 // @grant       none
-// @version     2.3.1
+// @version     2.3.2
 // @author      Petr Gondek
 // @description Adds a button to DnDBeyond to filter sources you own.
 // @license MIT
@@ -31,6 +31,7 @@ const mySources = [
   //"filter-source-critical-role-call-of-the-netherdeep",
   //"filter-source-curse-of-strahd",
   //"filter-source-curse-of-strahd-character-options",
+  "filter-source-d-d-free-rules-2024",
   //"filter-source-dead-in-thay",
   //"filter-source-descent-into-the-lost-caverns-of-tsojcanth",
   "filter-source-divine-contention",
@@ -39,6 +40,7 @@ const mySources = [
   //"filter-source-dragonlance-shadow-of-the-dragon-queen",
   //"filter-source-dragons-of-stormwreck-isle",
   "filter-source-dungeon-masters-guide-2014",
+  "filter-source-dungeon-masters-guide-2024",
   //"filter-source-dungeons-dragons-vs-rick-and-morty",
   //"filter-source-dungeons-of-drakkenheim",
   //"filter-source-eberron-rising-from-the-last-war",
@@ -61,13 +63,14 @@ const mySources = [
   //"filter-source-journeys-through-the-radiant-citadel",
   //"filter-source-keys-from-the-golden-vault",
   //"filter-source-lairs-of-etharis",
-  //"filter-source-legendary-magic-items",
+  "filter-source-legendary-magic-items",
   //"filter-source-lightning-keep",
   //"filter-source-locathah-rising",
   //"filter-source-lost-laboratory-of-kwalish",
   "filter-source-lost-mine-of-phandelver",
   //"filter-source-misplaced-monsters-volume-one",
   "filter-source-monster-manual-2014",
+  "filter-source-monster-manual-2024",
   "filter-source-monstrous-compendium-vol-1-spelljammer-creatures",
   "filter-source-monstrous-compendium-vol-2-dragonlance-creatures",
   "filter-source-monstrous-compendium-vol-3-minecraft-creatures",
@@ -81,11 +84,12 @@ const mySources = [
   //"filter-source-phandelver-and-below-the-shattered-obelisk",
   //"filter-source-planescape-adventures-in-the-multiverse",
   "filter-source-players-handbook-2014",
+  "filter-source-players-handbook-2024",
   "filter-source-princes-of-the-apocalypse",
-  //"filter-source-prisoner-13",
+  "filter-source-prisoner-13",
   //"filter-source-quests-from-the-infinite-staircase",
   //"filter-source-rise-of-tiamat",
-  //"filter-source-rrakkma",
+  "filter-source-rrakkma",
   "filter-source-sleeping-dragons-wake",
   "filter-source-spelljammer-academy",
   //"filter-source-spelljammer-adventures-in-space",
@@ -143,21 +147,21 @@ function Main() {
       CreateButtonEB();
       return;
     }
-    
+
     console.error("beyond-my-sources: Can't find an element.");
   }, 2000);
-  
+
 }
 
 function IsGameRules() {
-  return (document.getElementById(FILTER_SOURCE_ID) != null && 
-    document.getElementsByClassName(LISTING_FILTERS_CLASS)[0] != null && 
+  return (document.getElementById(FILTER_SOURCE_ID) != null &&
+    document.getElementsByClassName(LISTING_FILTERS_CLASS)[0] != null &&
     document.getElementsByClassName(RESET_BUTTON_CONTAINER_CLASS)[0] != null);
 }
 
 function IsEncounterBuilder() {
-  return (document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0] != null && 
-    document.getElementsByClassName(INPUT_SELECT_DROPDOWN)[0] != null && 
+  return (document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0] != null &&
+    document.getElementsByClassName(INPUT_SELECT_DROPDOWN)[0] != null &&
     document.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0] != null &&
     document.getElementsByClassName(QA_MONSTER_FILTERS_SHOW_ADVANCE)[0] != null);
 }
@@ -166,7 +170,11 @@ function OnClickEncounterBuilder(){
   let ele = document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0].getElementsByClassName(INPUT_SELECT_DROPDOWN)[0];
   let clickables = Array.from(ele.childNodes).map(e=> e.firstElementChild);
   clickables.forEach(e => {
-    let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data.toLowerCase().replace(/\s/g, '-').replace(/[^a-zA-Z-]/g, '');
+    let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data
+      .toLowerCase()
+      .replace(/\s/g, '-')
+      .replace(/&/g,'-') // removes & from 'D&D Free Rules'
+      .replace(/[^a-zA-Z-]/g, '');
     if (mySources.some(source => source.includes(bookName)))
       e.click();
   });
@@ -183,7 +191,7 @@ function CreateButtonEB() {
 }
 
 function ButtonOnClick() {
-  SelectAll();  
+  SelectAll();
   document.getElementsByClassName(LISTING_FILTERS_CLASS)[0].submit();
 }
 
@@ -198,7 +206,7 @@ function GetCssText(element) {
       return `${str}${property}:${styles.getPropertyValue(property)};`;
     }, '');
   }
-  
+
   return cssText;
 }
 
@@ -211,14 +219,14 @@ function CreateButton () {
   btn.style.cssText = GetCssText(container.firstElementChild.firstElementChild);
   let div = document.createElement("div");
   div.style.cssText = GetCssText(container.firstElementChild);
-  
+
   div.appendChild(btn);
   container.appendChild(div);
   return true;
 };
 
 function SelectAll () {
-  Array.from(document.getElementById(FILTER_SOURCE_ID)).forEach(e => { 
+  Array.from(document.getElementById(FILTER_SOURCE_ID)).forEach(e => {
     if (mySources.includes(e.id)) {
       e.selected = true;
     }
