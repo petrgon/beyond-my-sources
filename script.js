@@ -222,7 +222,7 @@ function Main() {
 }
 
 function IsSourceList() {
-  const pageTitle = document.querySelector('h1.page-title').textContent
+  const pageTitle = document.querySelector('h1.page-title').textContent.trim()
   return pageTitle == "Sources"
 }
 
