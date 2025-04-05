@@ -13,11 +13,60 @@ window.addEventListener('load', function() {
     Main();
 }, false);
 
+function safeParse(jsonString) {
+    try {
+        return JSON.parse(jsonString)
+    } catch (error) {
+        return null
+    }
+}
 // Execute this to get new sources array
 //Array.from(document.getElementById("filter-source")).map(e => e.id);
 
+const localStorageSourceKey = 'DNDB_OWNED_SOURCES'
+function getSourceFilters() {
+  const ownedSources = safeParse(window.localStorage.getItem(localStorageSourceKey))
+
+  if (Array.isArray(ownedSources)) {
+    return ownedSources.map(source => `filter-source-${source}`)
+  }
+  return []
+}
+
+const SOURCE_LISTING_CLASS_NAME = 'sources-listing'
+
+function getSourceListings() {
+  return Array.from(document.querySelectorAll('.sources-listing .sources-listing--item-wrapper'))
+}
+
+function getSourceFromTitle(title) {
+  return title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s/g, '-').toLowerCase();
+}
+
+function saveSources(sources) {
+  // delete all rendered sources not in library
+  const sourceListings = getSourceListings()
+  const filteredSourceListings = sourceListings.filter(listing => Boolean(listing.querySelector('.owned-content')))
+
+  const ownedSources = filteredSourceListings.map(listing => {
+    const titleNode = listing.querySelector('.sources-listing--item--title')
+    const title = Array.from(titleNode.childNodes)
+      .filter(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim())
+      .map(node => node.textContent.trim())
+      .join(' ');
+
+    return getSourceFromTitle(title)
+  })
+
+  if (ownedSources.length) {
+    window.localStorage.setItem(localStorageSourceKey, JSON.stringify(ownedSources))
+  }
+}
+
+const localStorageSources = getSourceFilters()
+
 // comment out sources you don't own
-const mySources = [
+const defaultSources = [
   //"filter-source-acquisitions-incorporated",
   //"filter-source-adventure-atlas-the-mortuary",
   //"filter-source-against-the-giants",
@@ -125,6 +174,8 @@ const mySources = [
   "filter-source-xanathars-guide-to-everything"
 ];
 
+const mySources = localStorageSources?.length ? localStorageSources : defaultSources
+
 const FILTER_SOURCE_ID = "filter-source";
 const LISTING_FILTERS_CLASS = "listing-filters";
 const RESET_BUTTON_CONTAINER_CLASS = "reset-button-container";
@@ -151,6 +202,15 @@ function Main() {
     console.error("beyond-my-sources: Can't find an element.");
   }, 2000);
 
+  if (IsSourceList()) {
+    saveSources()
+  }
+
+}
+
+function IsSourceList() {
+  const pageTitle = document.querySelector('h1.page-title').textContent
+  return pageTitle == "Sources"
 }
 
 function IsGameRules() {
