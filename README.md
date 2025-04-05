@@ -28,6 +28,13 @@ Don't forget to make a backup of the `mySources` variable if you are updating fr
 5. Save the script.
 6. Reload DnDBeyond page.
 
+## How to automatically determine sources
+1. visit the [sources](https://www.dndbeyond.com/sources) page on DnDBeyond to save all of your owned sources to your browser.
+2. Visit the content management page of a campaign that is sharing sources with you to save the shared sources for the current campaign to your browser. Note that only sources from one campaign at a time can be saved.
+  example url: `https://www.dndbeyond.com/campaigns/<campaign_id>/content-management`
+
+If any sources have been saved, the `mySources` variable will be overridden.
+
 ## Links
 [Greasy Fork](https://greasyfork.org/en/scripts/451010-beyond-my-sources)
 
