@@ -38,7 +38,14 @@ function getSourceFilters() {
 }
 
 function getSourceFromTitle(title) {
-  return title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s/g, '-').toLowerCase();
+  const sourceName = title
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, '-')
+    .replace(/\s/g, '-')
+    .replace(/[^a-zA-Z0-9-\s]/g, '')
+
+  return sourceName
 }
 
 function saveOwnedSources() {
@@ -222,7 +229,7 @@ function Main() {
 }
 
 function IsSourceList() {
-  const pageTitle = document.querySelector('h1.page-title').textContent.trim()
+  const pageTitle = document.querySelector('h1.page-title')?.textContent.trim()
   return pageTitle == "Sources"
 }
 
@@ -252,11 +259,7 @@ function OnClickEncounterBuilder(){
   let ele = document.getElementsByClassName(QA_MONSTER_FILTERS_SOURCE)[0].getElementsByClassName(INPUT_SELECT_DROPDOWN)[0];
   let clickables = Array.from(ele.childNodes).map(e=> e.firstElementChild);
   clickables.forEach(e => {
-    let bookName = e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data
-      .toLowerCase()
-      .replace(/\s/g, '-')
-      .replace(/&/g,'-') // removes & from 'D&D Free Rules'
-      .replace(/[^a-zA-Z-]/g, '');
+    let bookName = getSourceFromTitle(e.getElementsByClassName(INPUT_CHECKBOX_TEXT)[0].firstChild.data)
     if (mySources.some(source => source.includes(bookName)))
       e.click();
   });
