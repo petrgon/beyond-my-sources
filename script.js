@@ -13,7 +13,8 @@ window.addEventListener('load', function() {
     Main();
 }, false);
 
-function safeSourceParse(jsonString) {
+function safeSourceParse(sourceKey) {
+  const jsonString = window.localStorage.getItem(sourceKey)
   try {
     const parsedSources = JSON.parse(jsonString)
     if (Array.isArray(parsedSources)) return parsedSources
@@ -28,12 +29,12 @@ function safeSourceParse(jsonString) {
 const localStorageOwnedSourcesKey = 'DNDB_OWNED_SOURCES'
 const localStorageSharedSourcesKey = 'DNDB_SHARED_SOURCES'
 function getSourceFilters() {
-  const ownedSources = safeSourceParse(window.localStorage.getItem(localStorageOwnedSourcesKey))
-  const sharedSources = safeSourceParse(window.localStorage.getItem(localStorageSharedSourcesKey))
+  const ownedSources = safeSourceParse(localStorageOwnedSourcesKey)
+  const sharedSources = safeSourceParse(localStorageSharedSourcesKey)
 
   const allSources = [...ownedSources, ...sharedSources]
   const uniqueSources = [...new Set(allSources)];
-  return allSources.map(source => `filter-source-${source}`)
+  return uniqueSources.map(source => `filter-source-${source}`)
 }
 
 function getSourceFromTitle(title) {
