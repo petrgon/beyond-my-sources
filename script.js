@@ -13,6 +13,46 @@ window.addEventListener('load', function() {
     Main();
 }, false);
 
+/**
+ * Polls a callback function until it returns a truthy value or timeout occurs
+ * @param {Function} callback - Function to poll (should return truthy when done)
+ * @param {Object} options - Configuration options
+ * @param {number} options.interval - Polling interval in milliseconds (default: 100)
+ * @param {number} options.timeout - Timeout duration in milliseconds (default: 5000)
+ * @returns {Promise} Resolves with callback's truthy value or rejects on timeout
+ */
+function pollUntilTruthy(callback, { interval = 100, timeout = 5000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+    let intervalId;
+
+    // Cleanup function to stop intervals
+    const cleanup = () => clearInterval(intervalId);
+
+    const check = () => {
+      try {
+        const result = callback();
+        if (result) {
+          cleanup();
+          resolve(result);
+        } else if (Date.now() - startTime >= timeout) {
+          cleanup();
+          reject(new Error(`Timeout after ${timeout}ms`));
+        }
+      } catch (error) {
+        cleanup();
+        reject(error);
+      }
+    };
+
+    // First immediate check
+    check();
+
+    // Subsequent interval checks
+    intervalId = setInterval(check, interval);
+  });
+}
+
 function safeSourceParse(sourceKey) {
   const jsonString = window.localStorage.getItem(sourceKey)
   try {
@@ -69,9 +109,13 @@ function saveOwnedSources() {
   }
 }
 
-function saveSharedSources() {
-  const sourceListings = Array.from(document.querySelectorAll('.listing__items .listing__list-item__column.listing__list-item__column--name'))
-  const sharedSources = sourceListings.map(listing => {
+async function saveSharedSources() {
+  const sourceListings = await pollUntilTruthy(() => {
+    const maybeListings = document.querySelectorAll('.listing__items .listing__list-item__column.listing__list-item__column--name')
+    if (!maybeListings?.length) return false
+    return maybeListings
+  })
+  const sharedSources = [...sourceListings].map(listing => {
     const title = listing.textContent
     return getSourceFromTitle(title)
   })
