@@ -13,39 +13,38 @@ window.addEventListener('load', function() {
     Main();
 }, false);
 
-function safeParse(jsonString) {
+function safeSourceParse(jsonString) {
   try {
-    return JSON.parse(jsonString)
+    const parsedSources = JSON.parse(jsonString)
+    if (Array.isArray(parsedSources)) return parsedSources
+    return []
   } catch (error) {
-    return null
+    return []
   }
 }
 // Execute this to get new sources array
 //Array.from(document.getElementById("filter-source")).map(e => e.id);
 
 const localStorageOwnedSourcesKey = 'DNDB_OWNED_SOURCES'
+const localStorageSharedSourcesKey = 'DNDB_SHARED_SOURCES'
 function getSourceFilters() {
-  const ownedSources = safeParse(window.localStorage.getItem(localStorageOwnedSourcesKey))
+  const ownedSources = safeSourceParse(window.localStorage.getItem(localStorageOwnedSourcesKey))
+  const sharedSources = safeSourceParse(window.localStorage.getItem(localStorageSharedSourcesKey))
 
-  if (Array.isArray(ownedSources)) {
-    return ownedSources.map(source => `filter-source-${source}`)
-  }
-  return []
+  const allSources = [...ownedSources, ...sharedSources]
+  const uniqueSources = [...new Set(allSources)];
+  return allSources.map(source => `filter-source-${source}`)
 }
 
 const SOURCE_LISTING_CLASS_NAME = 'sources-listing'
-
-function getSourceListings() {
-  return Array.from(document.querySelectorAll('.sources-listing .sources-listing--item-wrapper'))
-}
 
 function getSourceFromTitle(title) {
   return title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s/g, '-').toLowerCase();
 }
 
-function saveOwnedSources(sources) {
+function saveOwnedSources() {
   // delete all rendered sources not in library
-  const sourceListings = getSourceListings()
+  const sourceListings = Array.from(document.querySelectorAll('.sources-listing .sources-listing--item-wrapper'))
   const filteredSourceListings = sourceListings.filter(listing => Boolean(listing.querySelector('.owned-content')))
 
   const ownedSources = filteredSourceListings.map(listing => {
@@ -60,6 +59,18 @@ function saveOwnedSources(sources) {
 
   if (ownedSources.length) {
     window.localStorage.setItem(localStorageOwnedSourcesKey, JSON.stringify(ownedSources))
+  }
+}
+
+function saveSharedSources() {
+  const sourceListings = Array.from(document.querySelectorAll('.listing__items .listing__list-item__column.listing__list-item__column--name'))
+  const sharedSources = sourceListings.map(listing => {
+    const title = listing.textContent
+    return getSourceFromTitle(title)
+  })
+
+  if (sharedSources.length) {
+    window.localStorage.setItem(localStorageSharedSourcesKey, JSON.stringify(sharedSources))
   }
 }
 
@@ -206,11 +217,23 @@ function Main() {
     saveOwnedSources()
   }
 
+  if (IsCampaignContent()) {
+    saveSharedSources()
+  }
 }
 
 function IsSourceList() {
   const pageTitle = document.querySelector('h1.page-title').textContent
   return pageTitle == "Sources"
+}
+
+function IsCampaignContent() {
+  const pathComponents = window.location.pathname.split('/').reverse().filter(i => i)
+  const isContentManagementPage = pathComponents[0] == 'content-management'
+  const campaignId = pathComponents[1]
+  const isCampaign = pathComponents[2] = 'campaigns'
+
+  return isCampaign && isContentManagementPage
 }
 
 function IsGameRules() {
