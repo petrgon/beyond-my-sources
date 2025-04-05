@@ -64,6 +64,7 @@ function saveOwnedSources() {
   })
 
   if (ownedSources.length) {
+    ownedSources.sort()
     window.localStorage.setItem(localStorageOwnedSourcesKey, JSON.stringify(ownedSources))
   }
 }
@@ -76,6 +77,7 @@ function saveSharedSources() {
   })
 
   if (sharedSources.length) {
+    sharedSources.sort()
     window.localStorage.setItem(localStorageSharedSourcesKey, JSON.stringify(sharedSources))
   }
 }
