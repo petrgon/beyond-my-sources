@@ -14,18 +14,18 @@ window.addEventListener('load', function() {
 }, false);
 
 function safeParse(jsonString) {
-    try {
-        return JSON.parse(jsonString)
-    } catch (error) {
-        return null
-    }
+  try {
+    return JSON.parse(jsonString)
+  } catch (error) {
+    return null
+  }
 }
 // Execute this to get new sources array
 //Array.from(document.getElementById("filter-source")).map(e => e.id);
 
-const localStorageSourceKey = 'DNDB_OWNED_SOURCES'
+const localStorageOwnedSourcesKey = 'DNDB_OWNED_SOURCES'
 function getSourceFilters() {
-  const ownedSources = safeParse(window.localStorage.getItem(localStorageSourceKey))
+  const ownedSources = safeParse(window.localStorage.getItem(localStorageOwnedSourcesKey))
 
   if (Array.isArray(ownedSources)) {
     return ownedSources.map(source => `filter-source-${source}`)
@@ -43,7 +43,7 @@ function getSourceFromTitle(title) {
   return title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s/g, '-').toLowerCase();
 }
 
-function saveSources(sources) {
+function saveOwnedSources(sources) {
   // delete all rendered sources not in library
   const sourceListings = getSourceListings()
   const filteredSourceListings = sourceListings.filter(listing => Boolean(listing.querySelector('.owned-content')))
@@ -59,7 +59,7 @@ function saveSources(sources) {
   })
 
   if (ownedSources.length) {
-    window.localStorage.setItem(localStorageSourceKey, JSON.stringify(ownedSources))
+    window.localStorage.setItem(localStorageOwnedSourcesKey, JSON.stringify(ownedSources))
   }
 }
 
@@ -203,7 +203,7 @@ function Main() {
   }, 2000);
 
   if (IsSourceList()) {
-    saveSources()
+    saveOwnedSources()
   }
 
 }
