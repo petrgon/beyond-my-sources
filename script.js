@@ -239,8 +239,7 @@ function IsCampaignContent() {
   const pathComponents = window.location.pathname.split('/').reverse().filter(i => i)
   const isContentManagementPage = pathComponents[0] == 'content-management'
   const campaignId = pathComponents[1]
-  const isCampaign = pathComponents[2] = 'campaigns'
-
+  const isCampaign = pathComponents[2] === 'campaigns'
   return isCampaign && isContentManagementPage
 }
 
