@@ -36,8 +36,6 @@ function getSourceFilters() {
   return allSources.map(source => `filter-source-${source}`)
 }
 
-const SOURCE_LISTING_CLASS_NAME = 'sources-listing'
-
 function getSourceFromTitle(title) {
   return title.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s/g, '-').toLowerCase();
 }
